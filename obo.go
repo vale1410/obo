@@ -48,8 +48,8 @@ There is NO WARRANTY, to the extent permitted by law.`)
 	}
 
 	if *ls {
-        showFiles()
-    }
+		showFiles()
+	}
 
 }
 
@@ -58,9 +58,20 @@ func showFiles() {
 	var f filepath.WalkFunc
 
 	f = func(path string, info os.FileInfo, err error) error {
-        fmt.Println("hello")
-		debug("path, info", path, info)
-		return err
+
+		if err != nil {
+			return err
+		}
+
+		if info.IsDir() && info.Name() == ".git" {
+			return filepath.SkipDir
+		}
+
+		if !strings.HasPrefix(info.Name(),".") {
+
+            debug("name",info.Name(),"path:", path)
+        } 
+		return nil
 	}
 
 	filepath.Walk(".", f)
@@ -89,8 +100,9 @@ func debug(arg ...interface{}) {
 }
 
 type Entry struct {
-	path string
-	md5  int
+	path  string
+	md5   int
+	texId string
 }
 
 func parse(filename string) {
