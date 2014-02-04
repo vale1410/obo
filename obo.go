@@ -67,10 +67,10 @@ func showFiles() {
 			return filepath.SkipDir
 		}
 
-		if !strings.HasPrefix(info.Name(),".") {
+		if !strings.HasPrefix(info.Name(), ".") {
 
-            debug("name",info.Name(),"path:", path)
-        } 
+			debug("name", info.Name(), "path:", path)
+		}
 		return nil
 	}
 
